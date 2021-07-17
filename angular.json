@@ -124,5 +124,8 @@
       }
     }
   },
-  "defaultProject": "frontend-admin"
+  "defaultProject": "frontend-admin",
+  "cli": {
+    "analytics": false
+  }
 }
