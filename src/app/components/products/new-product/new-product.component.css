@@ -1,0 +1,9 @@
+.image-product{
+  position: relative;
+}
+.btn-delete-image{
+  position: absolute;
+  right: 5%;
+  top: 5%;
+  width: 10%;
+}

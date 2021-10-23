@@ -1,3 +1,5 @@
+
+
 <div class="wrapper">
 
   <!-- Preloader -->
@@ -6,20 +8,20 @@
   </div>
 
   <!-- Navbar -->
-  <app-header></app-header>
+  <app-header ></app-header>
   <!-- /.navbar -->
 
   <!-- Main Sidebar Container -->
-  <app-sidenav></app-sidenav>
+  <app-sidenav ></app-sidenav>
 
 
-  <!-- Control Sidebar -->
+  <!-- Contbar -->
   <aside class="control-sidebar control-sidebar-dark">
     <!-- Control sidebar content goes here -->
   </aside>
   <!-- /.control-sidebar -->
 
-
+  <app-alert [fade]="true"></app-alert>
   <router-outlet></router-outlet>
 
   <!-- Main Footer -->

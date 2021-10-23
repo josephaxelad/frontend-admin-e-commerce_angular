@@ -1,0 +1,129 @@
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <app-page-header title="PRODUITS" [breadcrumb]="[{name : 'Accueil',link : '/home'},{name : 'Mes produits',link : '/produits'},{name : 'Détails du produit',link : ''}]"></app-page-header>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <section class="content">
+
+      <!-- Default box -->
+      <div class="card card-solid">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-12 col-sm-6">
+              <h3 class="d-inline-block d-sm-none">{{product.name}}</h3>
+              <div class="col-12">
+                <img style="height: 400px !important;"  [src]="product.imageUrl" alt="Product Image" class="product-image" alt="Product Image">
+              </div>
+              <div class="col-12 product-image-thumbs">
+                <div class="product-image-thumb active"><img [src]="product.imageUrl" alt="Product Image"></div>
+              </div>
+            </div>
+            <div class="col-12 col-sm-6">
+              <h3 class="my-3">{{product.name}}</h3>
+              <div *ngIf="product.categoryName"><a href="javascript:void(0)" [routerLink]="['/categories/modifier/'+product.categoryId]" class="badge badge-primary mb-2">{{product.categoryName}}</a></div>
+              <p>{{product.description}} </p>
+
+
+              <hr>
+
+              <div class="form-group mt-4">
+                <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
+                  <input type="checkbox"  (change)="isHidden($event,product)" [checked]="!product.isHidden" class="custom-control-input" id="customSwitch3">
+                  <label *ngIf="product.isHidden" class="custom-control-label" for="customSwitch3"> Invisible </label>
+                  <label *ngIf="!product.isHidden" class="custom-control-label" for="customSwitch3"> Visible </label>
+                </div>
+              </div>
+
+              <div class="bg-gray py-2 px-3 mt-4">
+                <h2 class="mb-0" >
+                  <span [ngClass]="{'promotion': product.inPromotion}">{{product.price}} €</span>
+                  &nbsp;<span *ngIf="product.inPromotion" > {{product.promotionPrice}} €</span>
+                </h2>
+                <h4 class="mt-0" *ngIf="product.inPromotion">
+                  <small> {{product.promotionRate}} % de réduction  </small>
+                </h4>
+              </div>
+
+
+              <!-- <h4>Available Colors</h4>
+              <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <label class="btn btn-default text-center active">
+                  <input type="radio" name="color_option" id="color_option_a1" autocomplete="off" checked>
+                  Green
+                  <br>
+                  <i class="fas fa-circle fa-2x text-green"></i>
+                </label>
+                <label class="btn btn-default text-center">
+                  <input type="radio" name="color_option" id="color_option_a2" autocomplete="off">
+                  Blue
+                  <br>
+                  <i class="fas fa-circle fa-2x text-blue"></i>
+                </label>
+                <label class="btn btn-default text-center">
+                  <input type="radio" name="color_option" id="color_option_a3" autocomplete="off">
+                  Purple
+                  <br>
+                  <i class="fas fa-circle fa-2x text-purple"></i>
+                </label>
+                <label class="btn btn-default text-center">
+                  <input type="radio" name="color_option" id="color_option_a4" autocomplete="off">
+                  Red
+                  <br>
+                  <i class="fas fa-circle fa-2x text-red"></i>
+                </label>
+                <label class="btn btn-default text-center">
+                  <input type="radio" name="color_option" id="color_option_a5" autocomplete="off">
+                  Orange
+                  <br>
+                  <i class="fas fa-circle fa-2x text-orange"></i>
+                </label>
+              </div> -->
+
+              <!-- <h4 class="mt-3">Size <small>Please select one</small></h4> -->
+              <div class="btn-group btn-group-toggle mt-3 mr-2" data-toggle="buttons">
+                <label class="btn btn-default text-center">
+                  <input type="radio" name="color_option" id="color_option_b1" autocomplete="off">
+                  <span class="text-xl">{{product.stock}}</span>
+                  <br>
+                  En stock
+                </label>
+              </div>
+
+              <div *ngIf="product.weight > 0" class="btn-group btn-group-toggle mt-3" data-toggle="buttons">
+                <label class="btn btn-default text-center">
+                  <input type="radio" name="color_option" id="color_option_b1" autocomplete="off">
+                  <span class="text-xl">{{product.weight}}</span>
+                  <br>
+                  Kilogrammes
+                </label>
+              </div>
+
+
+
+              <div class="mt-4" fxLayout="row" fxLayoutGap="5px">
+                <a href="javascript:void(0)" data-toggle="modal" [attr.data-target]="'#modal-delete-product-'+product._id" class="btn btn-sm btn-danger">
+                  <i class="fas fa-trash"></i> Supprimer
+                </a>
+                <a href="javascript:void(0)" [routerLink]="['/produits/modifier/'+product._id]"  class="btn btn-sm btn-primary">
+                  <i class="fas fa-pencil-alt"></i> Modifier
+                </a>
+              </div>
+
+
+
+            </div>
+          </div>
+        </div>
+        <!-- /.card-body -->
+      </div>
+      <!-- /.card -->
+
+    </section>
+    <!-- /.content -->
+
+  </div>
+  <!-- /.content-wrapper -->
+
+

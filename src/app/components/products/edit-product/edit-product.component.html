@@ -1,0 +1,197 @@
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <app-page-header title="PRODUITS" [breadcrumb]="[{name : 'Accueil',link : '/home'},{name : 'Mes produits',link : '/produits'},{name : 'Détails du produit',link : ''}]"></app-page-header>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <section class="content">
+
+      <!-- Default box -->
+      <div class="card card-solid">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-12 col-sm-6">
+              <h3 class="d-inline-block d-sm-none">LOWA Men’s Renegade GTX Mid Hiking Boots Review</h3>
+              <div class="col-12 image-product">
+                <!-- <img src="https://image.freepik.com/photos-gratuite/tasse-cafe-table-bois-mur-sombre_155003-8192.jpg" alt="Product Image" class="product-image" alt="Product Image"> -->
+                <!-- <img [src]="" alt="Product Image" class="product-image" alt="Product Image"> -->
+                <label class="btn btn-primary btn-block btn-sm btn-change-image btn-file">
+                  <i class="fas fa-pencil-alt"></i> <input type="file"  style="display: none;"  (change)="onFileChange($event)">
+                </label>
+                <div fxLayout="row" fxFlex="100">
+                  <img fxFlex="100" [src]="imagePreview" class="product-image" >
+                </div>
+              </div>
+              <div class="col-12 product-image-thumbs">
+                <div class="product-image-thumb active"><img [src]="imagePreview" alt="Product Image"></div>
+              </div>
+            </div>
+            <div class="col-12 col-sm-6">
+              <!-- general form elements -->
+              <div class="card card-primary">
+                <div class="card-header">
+                  <h3 class="card-title">Modifier un produit</h3>
+                </div>
+                <!-- /.card-header -->
+                <!-- form start -->
+                <!-- [formGroup]="singleProductForm" (ngSubmit)="editProduct()" -->
+                <form [formGroup]="editProductForm" (ngSubmit)="editProduct()" >
+                  <div class="card-body" fxLayout="column" >
+                    <div class="form-group">
+                      <label for="exampleInputEmail1">Nom</label>
+                      <input type="text" class="form-control" placeholder="Nom" formControlName="name"
+                      [ngClass]="{ 'is-invalid': submitted && editProductForm.controls.name.errors }">
+                      <div *ngIf="submitted && editProductForm.controls.name.errors" class="invalid-feedback">
+                        <div *ngIf="editProductForm.controls.name.errors.required">Le nom du produit est réquis !</div>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="exampleInputEmail1">Description</label>
+                      <textarea type="text" class="form-control" rows="3" placeholder="Description" formControlName="description"
+                      [ngClass]="{ 'is-invalid': submitted && editProductForm.controls.description.errors }"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="exampleInputEmail1">Poids</label>
+                      <div class="input-group mb-3">
+                        <input type="number" class="form-control" min="0" formControlName="weight"
+                        [ngClass]="{ 'is-invalid': submitted && editProductForm.controls.weight.errors }">
+                        <div class="input-group-append">
+                          <span class="input-group-text">Kg</span>
+                        </div>
+                        <div *ngIf="submitted && editProductForm.controls.weight.errors" class="invalid-feedback">
+                          <div *ngIf="editProductForm.controls.weight.errors.required">Le poids du produit est réquis !</div>
+                          <div *ngIf="editProductForm.controls.weight.errors.min">Le poids doit être supérieur à 0 !</div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="form-group"  fxFlex.gt-sm="48">
+                      <label>Catégorie</label>
+                          <select class="form-control" formControlName="categoryId">
+                            <option value="0"  >Aucune</option>
+                            <option *ngFor="let category of categories" [value]="category._id">{{category.name}}</option>
+                          </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="exampleInputEmail1">Stock</label>
+                      <input type="number" class="form-control" min="0" formControlName="stock"
+                      [ngClass]="{ 'is-invalid': submitted && editProductForm.controls.stock.errors }">
+                      <div *ngIf="submitted && editProductForm.controls.stock.errors" class="invalid-feedback">
+                        <div *ngIf="editProductForm.controls.stock.errors.required">Le stock du produit est réquis !</div>
+                        <div *ngIf="editProductForm.controls.stock.errors.min">Le stock doit être supérieur à 0 !</div>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="exampleInputEmail1">Prix Unitaire </label>
+                      <div class="input-group mb-3">
+                        <input type="number" [(ngModel)]="price"  (ngModelChange)="updatePromotionPrice()" class="form-control" min="0" formControlName="price"
+                        [ngClass]="{ 'is-invalid': submitted && editProductForm.controls.price.errors }" >
+                        <div class="input-group-append">
+                          <span class="input-group-text">€</span>
+                        </div>
+                        <div *ngIf="submitted && editProductForm.controls.price.errors" class="invalid-feedback">
+                          <div *ngIf="editProductForm.controls.price.errors.required">Le prix unitaire du produit est réquis !</div>
+                          <div *ngIf="editProductForm.controls.price.errors.min">Le prix unitaire doit être supérieur à 0 !</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div  fxFlex="100" fxLayout="row" fxLayoutGap="10%" >
+                      <div class="form-group" >
+                        <label for="exampleInputEmail1"></label>
+                        <div class="custom-control custom-checkbox">
+                          <input class="custom-control-input"  type="checkbox" id="inTrend" value="option1" formControlName="inTrend">
+                          <label for="inTrend" class="custom-control-label">En vedette</label>
+                        </div>
+                      </div>
+                      <div class="form-group" >
+                        <label for="exampleInputEmail1"></label>
+                        <div class="custom-control custom-checkbox">
+                          <input class="custom-control-input" [(ngModel)]="inPromotion" type="checkbox" id="inPromotion"  value="option22" formControlName="inPromotion">
+                          <label for="inPromotion" class="custom-control-label">Promotion</label>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group" fxFlex.gt-sm="48" *ngIf="inPromotion">
+                      <label for="exampleInputEmail1">Taux de réduction </label>
+                      <div class="input-group mb-3">
+                        <input type="number" min="0" max="100" [(ngModel)]="promotionRate" (ngModelChange)="updatePromotionPrice()"
+                        class="form-control" formControlName="promotionRate"
+                        [ngClass]="{ 'is-invalid': submitted && editProductForm.controls.promotionRate.errors }">
+                        <div class="input-group-append">
+                          <span class="input-group-text">%</span>
+                        </div>
+                        <div *ngIf="submitted && editProductForm.controls.promotionRate.errors" class="invalid-feedback">
+                          <div *ngIf="editProductForm.controls.promotionRate.errors.required">Le taux de réduction du produit est réquis !</div>
+                          <div *ngIf="editProductForm.controls.promotionRate.errors.min && editProductForm.controls.promotionRate.errors.max ">Le taux de réduction doit être compris entre 0 et 100 !</div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="form-group" fxFlex.gt-sm="48" *ngIf="inPromotion">
+                      <label for="exampleInputEmail1">Prix Promotion</label>
+                      <div class="input-group mb-3">
+                        <input type="number" min="0"  [max]="price" [(ngModel)]="promotionPrice" (ngModelChange)="updatePromotionRate()"
+                        class="form-control" formControlName="promotionPrice"
+                        [ngClass]="{ 'is-invalid': submitted && editProductForm.controls.promotionPrice.errors }">
+                        <div class="input-group-append">
+                          <span class="input-group-text">€</span>
+                        </div>
+                        <div *ngIf="submitted && editProductForm.controls.promotionPrice.errors" class="invalid-feedback">
+                          <div *ngIf="editProductForm.controls.promotionPrice.errors.required">Le prix promotionnel du produit est réquis !</div>
+                          <div *ngIf="editProductForm.controls.promotionPrice.errors.min">Le prix promotionnel doit être supérieur à 0 !</div>
+                        </div>
+                      </div>
+                    </div>
+
+
+
+                    <!-- <div class="form-group">
+                      <label>Parent</label>
+                          <select class="form-control"  formControlName="parent" >
+                            <option value="0" [selected]="true" >Aucun</option>
+                            <option *ngFor="let category of categories" [value]="category._id">{{category.name}}</option>
+                          </select>
+                    </div> -->
+                    <!-- <div class="form-group">
+                      <label for="exampleInputFile">File input</label>
+                      <div class="input-group">
+                        <div class="custom-file">
+                          <input type="file" class="custom-file-input" id="exampleInputFile">
+                          <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                        </div>
+                        <div class="input-group-append">
+                          <span class="input-group-text">Upload</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-check">
+                      <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                      <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                    </div> -->
+                  </div>
+                  <!-- /.card-body -->
+
+                  <div class="card-footer" fxLayout="row" fxLayoutGap="5px">
+                    <button type="submit" class="btn btn-success">Sauvergarder les modifications</button>
+                    <button type="button" class="btn btn-danger" data-toggle="modal" [attr.data-target]="'#modal-delete-product-'+product?._id">Supprimer</button>
+                  </div>
+                </form>
+              </div>
+              <!-- /.card -->
+
+            </div>
+          </div>
+        </div>
+        <!-- /.card-body -->
+      </div>
+      <!-- /.card -->
+
+    </section>
+    <!-- /.content -->
+
+  </div>
+  <!-- /.content-wrapper -->
+
+

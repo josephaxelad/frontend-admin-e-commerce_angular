@@ -14,16 +14,22 @@ export class AuthService {
   token!: string;
   adminId!: string;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+    this.verifyAuth();
+   }
 
   //Se connecter
   login(login : string,password: string) {
     return new Promise<void>((resolve, reject) => {
-      this.http.post(this.api+'/api/admin/login', {login : login , password : password})
+      this.http.post(this.api+'admin/login', {login : login , password : password})
       .subscribe(
         (authData : any)=>{
           this.token = authData.token;
           this.adminId = authData.adminId;
+          if (typeof(localStorage) !== "undefined") {
+            localStorage.setItem('token', JSON.stringify(this.token));
+            localStorage.setItem('id' ,  JSON.stringify(this.adminId));
+          }
           this.isAuth$.next(true);
           resolve();
         },
@@ -35,10 +41,30 @@ export class AuthService {
     });
   }
 
+  //Vérifier si il y'a un administrateur connecté
+  verifyAuth(){
+    if (typeof(localStorage) !== "undefined") {
+      const token = JSON.parse(localStorage.getItem('token')!);
+      const idAdmin = JSON.parse(localStorage.getItem('id')!);
+      if (token && idAdmin) {
+        this.isAuth$.next(true);
+      }
+      else {
+        this.logout()
+      }
+    }else{
+      this.logout();
+    }
+  }
+
   //Logout
   logout(){
     this.isAuth$.next(false);
     this.adminId = "";
     this.token = "";
+    if (typeof(localStorage) !== "undefined") {
+      localStorage.removeItem('token');
+      localStorage.removeItem('id');
+    }
   }
 }

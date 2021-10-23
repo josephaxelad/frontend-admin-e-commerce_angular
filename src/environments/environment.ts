@@ -4,7 +4,9 @@
 
 export const environment = {
   production: false,
-  api : 'http://localhost:3000'
+  api : 'http://localhost:3000/api/',
+  logo : 'assets/dist/img/logo/logo.png',
+  // api : 'http://www.backend-ecommerce-nodejs.dadanshow.com:3000/api/'
 };
 
 /*

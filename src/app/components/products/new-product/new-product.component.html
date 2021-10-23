@@ -1,0 +1,199 @@
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+      <app-page-header title="PRODUIT" [breadcrumb]="[{name : 'Accueil',link : '/home'},{name : 'Ajouter un produit',link : ''}]"></app-page-header>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <!-- left column -->
+          <div class="col-md-12">
+            <!-- general form elements -->
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title">Ajouter un produit</h3>
+              </div>
+              <!-- /.card-header -->
+              <!-- form start -->
+              <form [formGroup]="addProductForm" (ngSubmit)="addProduct()">
+                <div class="card-body" fxLayout="row wrap" fxLayoutAlign.gt-sm="space-between start" >
+
+                  <div class="form-group" fxFlex.gt-sm="48" >
+                    <label for="exampleInputEmail1">Nom</label>
+                    <input type="text" class="form-control" placeholder="Nom" formControlName="name"
+                    [ngClass]="{ 'is-invalid': submitted && addProductForm.controls.name.errors }">
+                    <div *ngIf="submitted && addProductForm.controls.name.errors" class="invalid-feedback">
+                      <div *ngIf="addProductForm.controls.name.errors.required">Le nom du produit est réquis !</div>
+                    </div>
+                  </div>
+
+                  <div class="form-group"  fxFlex.gt-sm="48">
+                    <label for="exampleInputEmail1">Description</label>
+                    <textarea type="text" class="form-control" rows="1" placeholder="Description" formControlName="description"
+                    [ngClass]="{ 'is-invalid': submitted && addProductForm.controls.description.errors }"
+                    ></textarea>
+                    <div *ngIf="submitted && addProductForm.controls.description.errors" class="invalid-feedback">
+                      <div *ngIf="addProductForm.controls.description.errors.required">La description du produit est réquise !</div>
+                    </div>
+                  </div>
+
+                  <div class="form-group" fxFlex.gt-sm="48">
+                    <label for="exampleInputEmail1">Poids</label>
+                    <div class="input-group mb-3">
+                      <input type="number" class="form-control" min="0" formControlName="weight"
+                      [ngClass]="{ 'is-invalid': submitted && addProductForm.controls.weight.errors }"
+                      >
+                      <div class="input-group-append">
+                        <span class="input-group-text">Kg</span>
+                      </div>
+                      <div *ngIf="submitted && addProductForm.controls.weight.errors" class="invalid-feedback">
+
+                        <div *ngIf="addProductForm.controls.weight.errors.min">Le poids doit être supérieur à 0 !</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group"  fxFlex.gt-sm="48">
+                    <label>Catégorie</label>
+                        <select class="form-control" formControlName="categoryId">
+                          <option value="0"  >Aucune</option>
+                          <option *ngFor="let category of categories" [value]="category._id">{{category.name}}</option>
+                        </select>
+                  </div>
+
+                  <div class="form-group" fxFlex.gt-sm="48">
+                    <label for="exampleInputEmail1">Stock</label>
+                    <input type="number" class="form-control" min="0" formControlName="stock"
+                    [ngClass]="{ 'is-invalid': submitted && addProductForm.controls.stock.errors }"
+                    >
+                    <div *ngIf="submitted && addProductForm.controls.stock.errors" class="invalid-feedback">
+                      <div *ngIf="addProductForm.controls.stock.errors.required">Le stock du produit est réquis !</div>
+                      <div *ngIf="addProductForm.controls.stock.errors.min">Le stock doit être supérieur à 0 !</div>
+                    </div>
+                  </div>
+
+                  <div class="form-group" fxFlex.gt-sm="48">
+                    <label for="exampleInputEmail1">Prix Unitaire </label>
+                    <div class="input-group mb-3">
+                      <input type="number" [(ngModel)]="price"  (ngModelChange)="updatePromotionPrice()" class="form-control" min="0" formControlName="price"
+                      [ngClass]="{ 'is-invalid': submitted && addProductForm.controls.price.errors }" >
+                      <div class="input-group-append">
+                        <span class="input-group-text">€</span>
+                      </div>
+                      <div *ngIf="submitted && addProductForm.controls.price.errors" class="invalid-feedback">
+                        <div *ngIf="addProductForm.controls.price.errors.required">Le prix unitaire du produit est réquis !</div>
+                        <div *ngIf="addProductForm.controls.price.errors.min">Le prix unitaire doit être supérieur à 0 !</div>
+                      </div>
+                    </div>
+
+                  </div>
+                  <!-- <div class="form-group" fxFlex.gt-sm="48">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox">
+                      <label class="form-check-label">Checkbox</label>
+                    </div>
+                  </div> -->
+                  <div fxFlex.gt-sm="48" fxFlex="100" fxLayout="row" fxLayoutGap="10%" >
+                    <div class="form-group" >
+                      <label for="exampleInputEmail1"></label>
+                      <div class="custom-control custom-checkbox">
+                        <input class="custom-control-input"  type="checkbox" id="inTrend" value="option1" formControlName="inTrend">
+                        <label for="inTrend" class="custom-control-label">En vedette</label>
+                      </div>
+                    </div>
+                    <div class="form-group" >
+                      <label for="exampleInputEmail1"></label>
+                      <div class="custom-control custom-checkbox">
+                        <input class="custom-control-input" [(ngModel)]="inPromotion" type="checkbox" id="inPromotion"  value="option22" formControlName="inPromotion">
+                        <label for="inPromotion" class="custom-control-label">Promotion</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group" fxFlex.gt-sm="48" *ngIf="inPromotion">
+                    <label for="exampleInputEmail1">Taux de réduction </label>
+                    <div class="input-group mb-3">
+                      <input type="number" min="0" max="100" [(ngModel)]="promotionRate" (ngModelChange)="updatePromotionPrice()"
+                      class="form-control" formControlName="promotionRate"
+                      [ngClass]="{ 'is-invalid': submitted && addProductForm.controls.promotionRate.errors }">
+                      <div class="input-group-append">
+                        <span class="input-group-text">%</span>
+                      </div>
+                      <div *ngIf="submitted && addProductForm.controls.promotionRate.errors" class="invalid-feedback">
+                        <div *ngIf="addProductForm.controls.promotionRate.errors.required">Le taux de réduction du produit est réquis !</div>
+                        <div *ngIf="addProductForm.controls.promotionRate.errors.min && addProductForm.controls.promotionRate.errors.max ">Le taux de réduction doit être compris entre 0 et 100 !</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group" fxFlex.gt-sm="48" *ngIf="inPromotion">
+                    <label for="exampleInputEmail1">Prix Promotion</label>
+                    <div class="input-group mb-3">
+                      <input type="number" min="0"  [max]="price" [(ngModel)]="promotionPrice" (ngModelChange)="updatePromotionRate()"
+                      class="form-control" formControlName="promotionPrice"
+                      [ngClass]="{ 'is-invalid': submitted && addProductForm.controls.promotionPrice.errors }">
+                      <div class="input-group-append">
+                        <span class="input-group-text">€</span>
+                      </div>
+                      <div *ngIf="submitted && addProductForm.controls.promotionPrice.errors" class="invalid-feedback">
+                        <div *ngIf="addProductForm.controls.promotionPrice.errors.required">Le prix promotionnel du produit est réquis !</div>
+                        <div *ngIf="addProductForm.controls.promotionPrice.errors.min">Le prix promotionnel doit être supérieur à 0 !</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group" fxFlex.gt-sm="50" fxLayout="column" >
+                    <label for="exampleInputEmail1">Choisir une image</label>
+                    <input formControlName="picture" id="file" type="file" (change)="onFileChange($event)"
+                    [ngClass]="{ 'is-invalid': submitted && addProductForm.controls.picture.errors }">
+                    <div *ngIf="submitted && addProductForm.controls.picture.errors && addProductForm.controls.picture.invalid" class="invalid-feedback">
+                        <div *ngIf="addProductForm.controls.picture.errors?.required">Image réquise !</div>
+                    </div>
+
+                    <div fxLayout="row" fxFlex="100">
+                      <div class="image-product" fxLayout="column" fxFlex="100" *ngIf="imagePreview">
+                        <button type="button" class="btn btn-danger btn-block btn-sm btn-delete-image" (click)="deleteImagePreview()" ><i class="fas fa-times"></i></button>
+                        <div fxLayout="row" fxFlex="300px">
+                          <img fxFlex="100" [src]="imagePreview"  >
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+
+
+
+                  <!-- <div class="form-group">
+                    <label for="exampleInputEmail1">Choisir une image</label>
+                    <button class="btn btn-success" type="button" (click)="filePicker.click()">Ajouter image</button>
+                    <input formControlName="picture" #filePicker class="btn btn-outline" type="file"  (change)="onFileChange($event)">
+                    <div class="image-preview" *ngIf="imagePreview">
+                      <img [src]="imagePreview" alt="">
+                    </div>
+                  </div> -->
+
+                </div>
+                <!-- /.card-body -->
+
+                <div class="card-footer">
+                  <button type="submit" class="btn btn-success mr-2">Ajouter</button>
+                  <button type="button" class="btn btn-danger" (click)="resetForm()">Annuler</button>
+                </div>
+              </form>
+            </div>
+            <!-- /.card -->
+
+          </div>
+          <!--/.col (left) -->
+        </div>
+        <!-- /.row -->
+      </div><!--/. container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+
+

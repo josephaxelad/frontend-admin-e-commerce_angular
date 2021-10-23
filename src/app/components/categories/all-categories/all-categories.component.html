@@ -1,0 +1,71 @@
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <app-page-header title="CATEGORIES" [breadcrumb]="[{name : 'Accueil',link : '/home'},{name : 'Mes catégories',link : '/categories'}]"></app-page-header>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <section class="content">
+
+      <!-- Default box -->
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title"><button [routerLink]="['/categories/ajouter']"   type="button" class="btn btn-block btn-success">Ajouter une catégorie</button></h3>
+
+          <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+              <i class="fas fa-minus"></i>
+            </button>
+            <!-- <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
+              <i class="fas fa-times"></i>
+            </button> -->
+          </div>
+        </div>
+        <div class="card-body p-0">
+          <table class="table table-striped projects">
+              <thead >
+                  <tr  >
+                      <th >#</th>
+                      <th >Nom</th>
+                      <th>Parent</th>
+                      <th ></th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr *ngFor="let category of categories; let i = index  " >
+                      <td> {{i + 1}} </td>
+                      <td>{{category.name}}</td>
+                      <td *ngIf="category.isParent ;else noParent" > {{category.parentName}} </td>
+                      <ng-template #noParent> <td>Aucun</td> </ng-template>
+                      <td style=" white-space: nowrap" class="project-actions text-right" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px">
+                          <!-- <a class="btn btn-primary btn-sm" href="#">
+                              <i class="fas fa-folder">
+                              </i>
+                              View
+                          </a> -->
+                          <a class="btn btn-info btn-sm" href="javascript:void(0)" [routerLink]="['/categories/modifier/'+category._id]"  >
+                              <i class="fas fa-pencil-alt">
+                              </i><span fxHide.xs>Modifier</span>
+
+                          </a>
+                          <a class="btn btn-danger btn-sm" href="javascript:void(0)" data-toggle="modal" [attr.data-target]="'#modal-delete-category-'+category._id">
+                              <i class="fas fa-trash">
+                              </i><span fxHide.xs>Supprimer</span>
+
+                          </a>
+                      </td>
+                  </tr>
+
+              </tbody>
+          </table>
+        </div>
+        <!-- /.card-body -->
+      </div>
+      <!-- /.card -->
+
+    </section>
+    <!-- /.content -->
+
+  </div>
+  <!-- /.content-wrapper -->
+
