@@ -4,4 +4,6 @@ export class Category {
   isParent! : boolean;
   idParent! : String;
   parentName? : String;
+  createdBy? : string;
+  creationDate? : Date;
 }

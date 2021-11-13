@@ -22,7 +22,14 @@
           </div>
         </div>
         <div class="card-body p-0">
-          <table class="table table-striped projects">
+
+          <div  *ngIf="!categories?.length" fxLayout="row" >
+            <div class="alert alert-info " fxFlex fxLayout="column" >
+              <h5><i class="icon fas fa-exclamation-triangle"></i>Aucun catégorie n'a été ajoutée !</h5>
+            </div>
+          </div>
+
+          <table  *ngIf="categories?.length" class="table table-striped projects">
               <thead >
                   <tr  >
                       <th >#</th>
@@ -32,8 +39,8 @@
                   </tr>
               </thead>
               <tbody>
-                  <tr *ngFor="let category of categories; let i = index  " >
-                      <td> {{i + 1}} </td>
+                  <tr *ngFor="let category of categoriesByPage; let i = index  " >
+                      <td> {{  (i + 1) + ((numberOfPage-1)*numberOfElementToShow)}} </td>
                       <td>{{category.name}}</td>
                       <td *ngIf="category.isParent ;else noParent" > {{category.parentName}} </td>
                       <ng-template #noParent> <td>Aucun</td> </ng-template>
@@ -60,6 +67,17 @@
           </table>
         </div>
         <!-- /.card-body -->
+        <div class="card-footer">
+          <nav *ngIf="categoriesByPage?.length && numberTotalOfpage>1" aria-label="Contacts Page Navigation">
+            <ul class="pagination justify-content-center m-0">
+              <li *ngFor="let i of pages" class="page-item active" [class]="{'active' : i  == numberOfPage} "
+              (click)="getCategoriesByPage(i)">
+               <a class="page-link" href="javascript:void(0)">{{ i  }}</a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+        <!-- /.card-footer -->
       </div>
       <!-- /.card -->
 

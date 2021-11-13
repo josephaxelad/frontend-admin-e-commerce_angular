@@ -1,7 +1,7 @@
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
-      <app-page-header title="PRODUIT" [breadcrumb]="[{name : 'Accueil',link : '/home'},{name : 'Ajouter un produit',link : ''}]"></app-page-header>
+      <app-page-header title="PRODUIT" [breadcrumb]="[{name : 'Accueil',link : '/home'},{name : 'Mes produits',link : '/produits'},{name : 'Ajouter un produit',link : ''}]"></app-page-header>
     <!-- /.content-header -->
 
     <!-- Main content -->
@@ -20,7 +20,7 @@
               <form [formGroup]="addProductForm" (ngSubmit)="addProduct()">
                 <div class="card-body" fxLayout="row wrap" fxLayoutAlign.gt-sm="space-between start" >
 
-                  <div class="form-group" fxFlex.gt-sm="48" >
+                  <div class="form-group" fxFlex="100" fxFlex.gt-sm="48" >
                     <label for="exampleInputEmail1">Nom</label>
                     <input type="text" class="form-control" placeholder="Nom" formControlName="name"
                     [ngClass]="{ 'is-invalid': submitted && addProductForm.controls.name.errors }">
@@ -29,7 +29,7 @@
                     </div>
                   </div>
 
-                  <div class="form-group"  fxFlex.gt-sm="48">
+                  <div class="form-group" fxFlex="100" fxFlex.gt-sm="48">
                     <label for="exampleInputEmail1">Description</label>
                     <textarea type="text" class="form-control" rows="1" placeholder="Description" formControlName="description"
                     [ngClass]="{ 'is-invalid': submitted && addProductForm.controls.description.errors }"
@@ -39,7 +39,7 @@
                     </div>
                   </div>
 
-                  <div class="form-group" fxFlex.gt-sm="48">
+                  <div class="form-group" fxFlex="100" fxFlex.gt-sm="48">
                     <label for="exampleInputEmail1">Poids</label>
                     <div class="input-group mb-3">
                       <input type="number" class="form-control" min="0" formControlName="weight"
@@ -55,7 +55,7 @@
                     </div>
                   </div>
 
-                  <div class="form-group"  fxFlex.gt-sm="48">
+                  <div class="form-group" fxFlex="100"  fxFlex.gt-sm="48">
                     <label>Catégorie</label>
                         <select class="form-control" formControlName="categoryId">
                           <option value="0"  >Aucune</option>
@@ -63,7 +63,7 @@
                         </select>
                   </div>
 
-                  <div class="form-group" fxFlex.gt-sm="48">
+                  <div class="form-group" fxFlex="100" fxFlex.gt-sm="48">
                     <label for="exampleInputEmail1">Stock</label>
                     <input type="number" class="form-control" min="0" formControlName="stock"
                     [ngClass]="{ 'is-invalid': submitted && addProductForm.controls.stock.errors }"
@@ -74,7 +74,7 @@
                     </div>
                   </div>
 
-                  <div class="form-group" fxFlex.gt-sm="48">
+                  <div class="form-group" fxFlex="100" fxFlex.gt-sm="48">
                     <label for="exampleInputEmail1">Prix Unitaire </label>
                     <div class="input-group mb-3">
                       <input type="number" [(ngModel)]="price"  (ngModelChange)="updatePromotionPrice()" class="form-control" min="0" formControlName="price"
@@ -112,7 +112,7 @@
                     </div>
                   </div>
 
-                  <div class="form-group" fxFlex.gt-sm="48" *ngIf="inPromotion">
+                  <div class="form-group" fxFlex="100" fxFlex.gt-sm="48" *ngIf="inPromotion">
                     <label for="exampleInputEmail1">Taux de réduction </label>
                     <div class="input-group mb-3">
                       <input type="number" min="0" max="100" [(ngModel)]="promotionRate" (ngModelChange)="updatePromotionPrice()"
@@ -128,7 +128,7 @@
                     </div>
                   </div>
 
-                  <div class="form-group" fxFlex.gt-sm="48" *ngIf="inPromotion">
+                  <div class="form-group" fxFlex="100" fxFlex.gt-sm="48" *ngIf="inPromotion">
                     <label for="exampleInputEmail1">Prix Promotion</label>
                     <div class="input-group mb-3">
                       <input type="number" min="0"  [max]="price" [(ngModel)]="promotionPrice" (ngModelChange)="updatePromotionRate()"
@@ -144,7 +144,7 @@
                     </div>
                   </div>
 
-                  <div class="form-group" fxFlex.gt-sm="50" fxLayout="column" >
+                  <div class="form-group" fxFlex="100" fxFlex.gt-sm="50" fxLayout="column" >
                     <label for="exampleInputEmail1">Choisir une image</label>
                     <input formControlName="picture" id="file" type="file" (change)="onFileChange($event)"
                     [ngClass]="{ 'is-invalid': submitted && addProductForm.controls.picture.errors }">

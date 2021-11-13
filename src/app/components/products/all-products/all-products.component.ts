@@ -12,8 +12,13 @@ import { ProductsService } from 'src/app/services/products.service';
 })
 export class AllProductsComponent implements OnInit {
 
-  products : Product[] = [];
   categories: Category[] = [];
+  products : Product[] = [];
+  productsByPage: Product[] = [];
+  numberOfElementToShow : number = 9;
+  numberOfPage : number = 0;
+  numberTotalOfpage : number = 0;
+  pages : number[] = [];
 
   constructor(private _productsService : ProductsService,private _categoriesService : CategoriesService,private _alertsService : AlertsService ) { }
 
@@ -30,24 +35,31 @@ export class AllProductsComponent implements OnInit {
     /**Récuperer les produits */
     this._productsService.products$.subscribe(
       (products : Product[])=>{
-        this.products = products?.map(
-          (product)=> ({...product, categoryName : this.categories?.find((cat)=>cat._id == product.categoryId)?.name! })
+
+        this.numberTotalOfpage = Math.ceil(products?.length/this.numberOfElementToShow)
+        for (let i = 1; i < this.numberTotalOfpage + 1; i++) {
+          this.pages.push(i)
+        }
+
+        this.products = products?.filter((product)=>product.isHidden == false)?.map(
+          (product : Product)=> ({...product, categoryName : this.categories?.find((cat)=>cat._id == product.categoryId)?.name! })
         )
         console.log(this.products)
       }
     )
+
+    this.getProductsBypage(1);
   }
 
   /**
-   * Masque ou affiche un produit
+   * Rend visible un produit
    * @param e
    * @param product
    */
-  isHidden(e: any,product : Product){
-    const isHidden = e.target.checked;
-    console.log(isHidden)
-    if (isHidden) {
-      this._productsService.isHidden(isHidden,product._id!)
+   isVisible(e: any,product : Product){
+    const isVisible = e.target.checked;
+    if (isVisible) {
+      this._productsService.isVisible(isVisible,product._id!)
       .then(()=>{
         this._alertsService.success('Le produit "'+product.name+'" est désormais visible en ligne',
         {
@@ -57,7 +69,7 @@ export class AllProductsComponent implements OnInit {
       })
       .catch((error)=>{console.log(error)})
     } else {
-      this._productsService.isHidden(isHidden,product._id!)
+      this._productsService.isVisible(isVisible,product._id!)
       .then(()=>{
         this._alertsService.success('Le produit "'+product.name+'" est désormais invisible en ligne',
         {
@@ -68,5 +80,23 @@ export class AllProductsComponent implements OnInit {
       .catch((error)=>{console.log(error)})
     }
   }
+
+  getProductsBypage(numberOfPage : number){
+    this.numberOfPage = numberOfPage;
+    /**Récuperer les produits */
+    this._productsService.products$.subscribe(
+      (products : Product[])=>{
+
+        const products_ = products?.filter((product)=>product.isHidden == false)?.map(
+          (product : Product)=> ({...product, categoryName : this.categories?.find((cat)=>cat._id == product.categoryId)?.name! })
+        )
+
+        this.productsByPage = products_?.slice(this.numberOfElementToShow*(numberOfPage-1),this.numberOfElementToShow*numberOfPage)
+
+        console.log(this.productsByPage)
+      }
+    )
+  }
+
 
 }

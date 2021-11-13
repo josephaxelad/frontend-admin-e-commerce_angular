@@ -6,6 +6,7 @@ export class Product {
   description! : string;
   isHidden : boolean = false;
   isDeleted : boolean = false;
+  isVisible : boolean = true;
   inStock : boolean = false;
   stock : number = 0;
   inTrend : boolean = false;
@@ -20,4 +21,6 @@ export class Product {
   imageUrl? : String;
   price : number = 0;
   tags? : string[];
+  createdBy? : string;
+  creationDate? : Date;
 }

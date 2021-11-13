@@ -69,7 +69,6 @@ export class NewProductComponent implements OnInit {
     if (this.addProductForm.valid) {
       const name : string = this.addProductForm.get('name')?.value;
       const description : string = this.addProductForm.get('description')?.value;
-      const isDeleted : boolean = this.addProductForm.get('isDeleted')?.value;
       const inStock : boolean = this.addProductForm.get('inStock')?.value;
       const stock : number = this.addProductForm.get('stock')?.value;
       const inTrend : boolean = this.addProductForm.get('inTrend')?.value;
@@ -85,7 +84,8 @@ export class NewProductComponent implements OnInit {
         name : name,
         description : description,
         isHidden : false,
-        isDeleted : isDeleted,
+        isDeleted : false,
+        isVisible : true,
         inStock : inStock,
         stock : stock,
         inTrend : inTrend,
@@ -95,7 +95,8 @@ export class NewProductComponent implements OnInit {
         categoryId : categoryId,
         weight : weight,
         price : price,
-
+        createdBy : "0",
+        creationDate : new Date(),
       }
 
       console.log(product)
@@ -151,6 +152,24 @@ export class NewProductComponent implements OnInit {
   resetForm(){
     this.addProductForm.reset();
     this.deleteImagePreview();
+    /** Initialisation du formulaire de la création d'un produit */
+    this.addProductForm = this._fb.group({
+      name : this._fb.control('',Validators.required),
+      description : this._fb.control('',Validators.required),
+      isHidden : this._fb.control(false,Validators.required),
+      isDeleted : this._fb.control(false,Validators.required),
+      inStock : this._fb.control(false,Validators.required),
+      stock : this._fb.control(0,[Validators.required,Validators.min(0)]),
+      inTrend : this._fb.control(false,Validators.required),
+      inPromotion: this._fb.control(false,Validators.required),
+      promotionRate: this._fb.control(0,[Validators.required,Validators.min(0),Validators.max(100)]),
+      promotionPrice : this._fb.control(0,[Validators.required,Validators.min(0)]),
+      categoryId  : this._fb.control('0',Validators.required),
+      weight  : this._fb.control(0,[Validators.min(0)]),
+      picture  : this._fb.control('',Validators.required),
+      price  : this._fb.control(0,[Validators.required,Validators.min(0)]),
+
+    })
   }
 
   updatePromotionRate(){

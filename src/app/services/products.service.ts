@@ -88,9 +88,35 @@ export class ProductsService {
     })
   }
 
+  /**
+   * Archive ou désarchive un élément
+   * @param isHidden
+   * @param id
+   * @returns
+   */
   isHidden(isHidden : boolean,id : string){
     return new Promise<any>((resolve, reject) => {
       this._http.put(environment.api+"product/isHidden/"+id,{isHidden : isHidden}).subscribe(
+        (response)=>{
+          resolve(response);
+          this.getProducts();
+        },
+        (error)=>{
+          reject(error)
+        }
+      )
+    })
+  }
+
+  /**
+   * Rend visible ou invisible un produit
+   * @param isVisible
+   * @param id
+   * @returns
+   */
+  isVisible(isVisible : boolean,id : string){
+    return new Promise<any>((resolve, reject) => {
+      this._http.put(environment.api+"product/isVisible/"+id,{isVisible : isVisible}).subscribe(
         (response)=>{
           resolve(response)
         },

@@ -8,6 +8,7 @@ import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
 import { NotFoundComponent } from './components/partials/not-found/not-found.component';
 import { AllProductsComponent } from './components/products/all-products/all-products.component';
+import { DeletedProductsComponent } from './components/products/deleted-products/deleted-products.component';
 import { EditProductComponent } from './components/products/edit-product/edit-product.component';
 import { NewProductComponent } from './components/products/new-product/new-product.component';
 import { ProductsComponent } from './components/products/products.component';
@@ -31,6 +32,7 @@ const routes: Routes = [
       { path : 'ajouter', component: NewProductComponent},
       { path : 'produit/:id', component: SingleProductComponent},
       { path : 'modifier/:id', component: EditProductComponent},
+      { path : 'archives', component: DeletedProductsComponent},
       { path : '', component: AllProductsComponent},
       { path: '', pathMatch: 'full', redirectTo: '' },
     ]
@@ -40,7 +42,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes,{scrollPositionRestoration : 'enabled'})],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

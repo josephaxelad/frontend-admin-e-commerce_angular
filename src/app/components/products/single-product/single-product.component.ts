@@ -44,11 +44,10 @@ export class SingleProductComponent implements OnInit {
    * @param e
    * @param product
    */
-   isHidden(e: any,product : Product){
-    const isHidden = e.target.checked;
-    console.log(isHidden)
-    if (isHidden) {
-      this._productsService.isHidden(isHidden,product._id!)
+   isVisible(e: any,product : Product){
+    const isVisible = e.target.checked;
+    if (isVisible) {
+      this._productsService.isVisible(isVisible,product._id!)
       .then(()=>{
         this._alertsService.success('Le produit "'+product.name+'" est désormais visible en ligne',
         {
@@ -58,7 +57,7 @@ export class SingleProductComponent implements OnInit {
       })
       .catch((error)=>{console.log(error)})
     } else {
-      this._productsService.isHidden(isHidden,product._id!)
+      this._productsService.isVisible(isVisible,product._id!)
       .then(()=>{
         this._alertsService.success('Le produit "'+product.name+'" est désormais invisible en ligne',
         {

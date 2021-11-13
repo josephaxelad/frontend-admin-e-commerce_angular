@@ -19,7 +19,7 @@ export class SidenavComponent implements OnInit {
 
   constructor(private authService : AuthService,private router : Router) {
 
-    $('[data-widget="treeview"]').Treeview('init');
+    // $('[data-widget="treeview"]').Treeview('init');
 
 
    }

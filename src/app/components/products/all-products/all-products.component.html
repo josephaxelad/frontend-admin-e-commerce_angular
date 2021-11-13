@@ -9,9 +9,16 @@
 
       <!-- Default box -->
       <div class="card card-solid">
-        <div class="card-body pb-0">
-          <div class="row">
-            <div *ngFor="let product of products ;let i = index" class="col-12 col-sm-6 col-md-4 d-flex align-items-stretch flex-column">
+        <div  class="card-body pb-0">
+          <div *ngIf="!products.length" class="row">
+            <div class="alert alert-info " fxFill fxLayout="column" >
+              <h5><i class="icon fas fa-exclamation-triangle"></i>Aucun produit n'a été ajouté !</h5>
+              <div fxLayout="row" ><button fxFlex="flex"  [routerLink]="['/produits/ajouter']"   type="button" class="btn btn-block btn-success">Ajouter un produit</button></div>
+
+            </div>
+          </div>
+          <div *ngIf="products.length" class="row">
+            <div *ngFor="let product of productsByPage ;let i = index" class="col-12 col-sm-6 col-md-4 d-flex align-items-stretch flex-column">
               <div class="card bg-light d-flex flex-fill">
                 <div class="card bg-dark text-white mb-0">
                   <img *ngIf="!product.imageUrl" src="https://image.freepik.com/photos-gratuite/tasse-cafe-table-bois-mur-sombre_155003-8192.jpg" class="card-img" alt="...">
@@ -20,7 +27,7 @@
                     <div  fxLayout="row"  fxLayoutAlign="space-between start">
                       <h5 class="card-title"><b>  {{product.name}} </b></h5>
                       <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
-                        <input type="checkbox" class="custom-control-input" (change)="isHidden($event,product)" [checked]="!product.isHidden" [id]="'customSwitch'+product._id">
+                        <input type="checkbox" class="custom-control-input" (change)="isVisible($event,product)" [checked]="product.isVisible" [id]="'customSwitch'+product._id">
                         <label class="custom-control-label text-muted text-sm"  [for]="'customSwitch'+product._id"></label>
                       </div>
                     </div>
@@ -61,16 +68,12 @@
         </div>
         <!-- /.card-body -->
         <div class="card-footer">
-          <nav aria-label="Contacts Page Navigation">
+          <nav *ngIf="productsByPage.length && numberTotalOfpage>1" aria-label="Contacts Page Navigation">
             <ul class="pagination justify-content-center m-0">
-              <li class="page-item active"><a class="page-link" href="#">1</a></li>
-              <li class="page-item"><a class="page-link" href="#">2</a></li>
-              <li class="page-item"><a class="page-link" href="#">3</a></li>
-              <li class="page-item"><a class="page-link" href="#">4</a></li>
-              <li class="page-item"><a class="page-link" href="#">5</a></li>
-              <li class="page-item"><a class="page-link" href="#">6</a></li>
-              <li class="page-item"><a class="page-link" href="#">7</a></li>
-              <li class="page-item"><a class="page-link" href="#">8</a></li>
+              <li *ngFor="let i of pages" class="page-item active" [class]="{'active' : i  == numberOfPage} "
+              (click)="getProductsBypage(i)">
+               <a class="page-link" href="javascript:void(0)">{{ i  }}</a>
+              </li>
             </ul>
           </nav>
         </div>

@@ -4,9 +4,9 @@
 
 export const environment = {
   production: false,
-  // api : 'http://localhost:3000/api/',
+  api : 'http://localhost:3000/api/',
   logo : 'assets/dist/img/logo/logo.png',
-  api : 'https://dadanshow-backend-ecommerce.herokuapp.com/api/'
+  // api : 'https://dadanshow-backend-ecommerce.herokuapp.com/api/'
 };
 
 /*

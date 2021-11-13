@@ -30,7 +30,7 @@
 
               <div class="form-group mt-4">
                 <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
-                  <input type="checkbox"  (change)="isHidden($event,product)" [checked]="!product.isHidden" class="custom-control-input" id="customSwitch3">
+                  <input type="checkbox"  (change)="isVisible($event,product)" [checked]="product.isVisible" class="custom-control-input" id="customSwitch3">
                   <label *ngIf="product.isHidden" class="custom-control-label" for="customSwitch3"> Invisible </label>
                   <label *ngIf="!product.isHidden" class="custom-control-label" for="customSwitch3"> Visible </label>
                 </div>

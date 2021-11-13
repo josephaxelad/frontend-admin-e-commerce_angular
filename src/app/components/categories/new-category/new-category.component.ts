@@ -52,7 +52,8 @@ export class NewCategoryComponent implements OnInit {
       const idParent = this.addCategoryForm.get('parent')?.value;
       const isParent = idParent != 0 ? true : false;
 
-      const category = {name : name, idParent : idParent , isParent : isParent};
+
+      const category = {name : name, idParent : idParent , isParent : isParent, createdBy : "0",creationDate : new Date(),};
 
       this._categoriesService.addCategory(category)
       .then((res)=>{
@@ -66,6 +67,7 @@ export class NewCategoryComponent implements OnInit {
         this._router.navigate(["/categories"])
       })
       .catch((error)=>{
+        console.log(error)
         this.submitted = false;
         this._alertsService.error("Une erreur est survenue lors de la création de la catégorie, verifiez si le nom "+category.name+" n'existe pas déjà! ",
         {
