@@ -13,7 +13,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public isAuth: boolean = false;
   private isAuthSub!: Subscription;
 
-  constructor(private authService : AuthService,private router : Router) { }
+  constructor(private authService : AuthService,private _router : Router) { }
 
   ngOnInit(): void {
     //Vérifier si un utilisateur est connecté
@@ -22,7 +22,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.isAuth = auth;
         //Diriger vers login s'il n'a pas d'utilisateurs connectés
         if (!auth) {
-          this.router.navigate(['/login']);
+          this.logout()
         }
       }
     );
@@ -30,8 +30,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   //Se déconnecter
   logout(){
-    this.authService.logout();
-    this.router.navigate(['/login']);
+    this._router.navigate(['/login']);
   }
 
   ngOnDestroy() {

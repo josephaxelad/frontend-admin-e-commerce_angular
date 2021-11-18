@@ -15,33 +15,28 @@ export class SidenavComponent implements OnInit {
   public isAuth: boolean = false;
   private isAuthSub!: Subscription;
   logo : string = environment.logo;
+  resignIn!: boolean;
 
 
-  constructor(private authService : AuthService,private router : Router) {
-
-    // $('[data-widget="treeview"]').Treeview('init');
-
-
-   }
+  constructor(private authService : AuthService,private router : Router) { }
 
   ngOnInit(): void {
 
-    // $(document).ready(() => {
-    //   $('[data-widget="treeview"]').Treeview('init');
-    // });
-
-
+    // Afficher ou Masquer modal de reconnexiont
+    this.authService.isReSignIn$.subscribe(
+      (isResignIn)=>{
+        if (isResignIn) {
+          this.resignIn = true;
+        } else {
+          this.resignIn = false;
+        }
+      }
+    )
 
     //Vérifier si un utilisateur est connecté
     this.isAuthSub = this.authService.isAuth$.subscribe(
       (auth) => {
         this.isAuth = auth;
-        // Activer treeview si un utlisateur est connecté *
-        // if (auth == true) {
-        //   setTimeout(() => {
-        //     $('[data-widget="treeview"]').Treeview('init');
-        //   }, 1);
-        // }
       }
     );
   }
@@ -49,13 +44,8 @@ export class SidenavComponent implements OnInit {
   //Se déconnecter
   logout(){
     this.authService.logout();
-    this.router.navigate(['/login']);
   }
 
-  // ngAfterViewInit(): void{
-  //   $('[data-widget="treeview"]').Treeview('init');
-  // }
 
-  // ngAfterViewInit(): void { $('[data-widget="treeview"]').each(function() { AdminLte.Treeview._jQueryInterface.call($(this), 'init'); }); }
 
 }

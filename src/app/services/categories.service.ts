@@ -4,6 +4,7 @@ import { promise } from 'protractor';
 import { BehaviorSubject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Category } from '../models/category';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class CategoriesService {
   categories!: Category[];
   categories$ = new BehaviorSubject<Category[]>([]);
 
-  constructor(private _http : HttpClient) {
+  constructor(private _http : HttpClient,private _authServices : AuthService) {
     this.getCategories();
   }
 
@@ -29,7 +30,15 @@ export class CategoriesService {
           resolve(res);
         },
         (error) => {
-          reject(error.error);
+          switch (error.status) {
+            case 401:
+              this._authServices.reSignIn()
+              break;
+
+            default:
+              reject(error);
+          }
+          console.log(error)
         }
       );
     });
@@ -45,7 +54,12 @@ export class CategoriesService {
           this.emitCategories();
         },
         (error) => {
-          console.log(error.error)
+          switch (error.status) {
+            case 401:
+              this._authServices.logout()
+              break;
+          }
+          console.log(error)
         }
       );
   }
@@ -62,7 +76,15 @@ export class CategoriesService {
           resolve()
         },
         (error)=>{
-          reject(error)
+          switch (error.status) {
+            case 401:
+              this._authServices.reSignIn()
+              break;
+
+            default:
+              reject(error);
+          }
+          console.log(error)
         }
       )
     })
@@ -80,7 +102,15 @@ export class CategoriesService {
           resolve()
         },
         (error)=>{
-          reject(error)
+          switch (error.status) {
+            case 401:
+              this._authServices.reSignIn()
+              break;
+
+            default:
+              reject(error);
+          }
+          console.log(error)
         }
       )
     })

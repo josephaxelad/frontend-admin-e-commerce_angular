@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
@@ -11,17 +12,18 @@ export class AuthService {
 
   private api : string = environment.api;
   isAuth$ = new BehaviorSubject<boolean>(false);
+  isReSignIn$ = new BehaviorSubject<boolean>(JSON.parse(localStorage.getItem('resignin')!) ? JSON.parse(localStorage.getItem('resignin')!)  : false);
   token!: string;
   adminId!: string;
 
-  constructor(private http: HttpClient) {
+  constructor(private _http: HttpClient,private _router : Router) {
     this.verifyAuth();
    }
 
   //Se connecter
   login(login : string,password: string) {
     return new Promise<void>((resolve, reject) => {
-      this.http.post(this.api+'admin/login', {login : login , password : password})
+      this._http.post(this.api+'admin/login', {login : login , password : password})
       .subscribe(
         (authData : any)=>{
           this.token = authData.token;
@@ -59,12 +61,23 @@ export class AuthService {
 
   //Logout
   logout(){
+    this.isReSignIn$.next(false)
     this.isAuth$.next(false);
     this.adminId = "";
     this.token = "";
     if (typeof(localStorage) !== "undefined") {
       localStorage.removeItem('token');
       localStorage.removeItem('id');
+      localStorage.removeItem('resignin');
+    }
+
+  }
+
+  //Reconnexion
+  reSignIn(){
+    this.isReSignIn$.next(true);
+    if (typeof(localStorage) !== "undefined") {
+      localStorage.setItem('resignin', JSON.stringify(true));
     }
   }
 }

@@ -127,7 +127,6 @@ export class NewProductComponent implements OnInit {
   }
 
 
-
   onFileChange(event : any) {
     const reader = new FileReader();
 

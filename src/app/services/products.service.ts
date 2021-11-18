@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Product } from '../models/product';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,10 +13,16 @@ export class ProductsService {
   products!: Product[];
   products$ = new BehaviorSubject<Product[]>([]);
 
-  constructor(private _http : HttpClient) {
+  constructor(private _http : HttpClient,private _authServices : AuthService) {
     this.getProducts();
   }
 
+  /**
+   * Créer un produit
+   * @param product
+   * @param productImage
+   * @returns
+   */
   createProduct(product: Product, productImage: File) {
     return new Promise((resolve, reject) => {
       const productData = new FormData();
@@ -27,7 +34,17 @@ export class ProductsService {
           this.getProducts();
         },
         (error) => {
-          reject(error);
+          switch (error.status) {
+            case 401:
+              this._authServices.reSignIn()
+              break;
+
+            default:
+              reject(error);
+          }
+          console.log(error)
+
+
         }
       );
     });
@@ -43,7 +60,15 @@ export class ProductsService {
         this.emitProducts();
       },
       (error) => {
-        console.log(error.error)
+        switch (error.status) {
+          case 401:
+            this._authServices.logout();
+            break;
+
+          default:
+            ;
+        }
+        console.log(error)
       }
     );
   }
@@ -64,7 +89,15 @@ export class ProductsService {
           this.getProducts();
         },
         (error) => {
-          reject(error);
+          switch (error.status) {
+            case 401:
+              this._authServices.reSignIn()
+              break;
+
+            default:
+              reject(error);
+          }
+          console.log(error)
         }
       )
     })
@@ -82,7 +115,15 @@ export class ProductsService {
           this.getProducts();
         },
         (error)=>{
-          reject(error)
+          switch (error.status) {
+            case 401:
+              this._authServices.reSignIn()
+              break;
+
+            default:
+              reject(error);
+          }
+          console.log(error)
         }
       )
     })
