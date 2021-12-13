@@ -5,8 +5,8 @@
 export const environment = {
   production: false,
   api : 'http://localhost:3000/api/',
+  prefUrlProductsImage : 'http://localhost:3000/images/products/',
   logo : 'assets/dist/img/logo/logo.png',
-  // api : 'https://dadanshow-backend-ecommerce.herokuapp.com/api/'
 };
 
 /*

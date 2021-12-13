@@ -21,8 +21,8 @@
             <div *ngFor="let product of productsByPage ;let i = index" class="col-12 col-sm-6 col-md-4 d-flex align-items-stretch flex-column">
               <div class="card bg-light d-flex flex-fill">
                 <div class="card bg-dark text-white mb-0">
-                  <img *ngIf="!product.imageUrl" src="https://image.freepik.com/photos-gratuite/tasse-cafe-table-bois-mur-sombre_155003-8192.jpg" class="card-img" alt="...">
-                  <img *ngIf="product.imageUrl" height="300" [src]="product.imageUrl" class="card-img" alt="...">
+                  <img *ngIf="!product.picture" src="https://image.freepik.com/photos-gratuite/tasse-cafe-table-bois-mur-sombre_155003-8192.jpg" class="card-img" alt="...">
+                  <img *ngIf="product.picture" height="300" [src]="prefUrlProductsImage+product.picture" class="card-img" alt="...">
                   <div class="card-img-overlay " style="background-color: #0000007a;">
                     <div  fxLayout="row"  fxLayoutAlign="space-between start">
                       <h5 class="card-title"><b>  {{product.name}} </b></h5>

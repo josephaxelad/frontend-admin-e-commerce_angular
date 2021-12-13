@@ -21,8 +21,8 @@
             <div *ngFor="let product of productsByPage ;let i = index" class="col-12 col-sm-6 col-md-4 d-flex align-items-stretch flex-column">
               <div class="card bg-light d-flex flex-fill">
                 <div class="card bg-dark text-white mb-0">
-                  <img *ngIf="!product.imageUrl" src="https://image.freepik.com/photos-gratuite/tasse-cafe-table-bois-mur-sombre_155003-8192.jpg" class="card-img" alt="...">
-                  <img *ngIf="product.imageUrl" height="300" [src]="product.imageUrl" class="card-img" alt="...">
+                  <img *ngIf="!product.picture" src="https://image.freepik.com/photos-gratuite/tasse-cafe-table-bois-mur-sombre_155003-8192.jpg" class="card-img" alt="...">
+                  <img *ngIf="product.picture" height="300" [src]="prefUrlProductsImage+product.picture" class="card-img" alt="...">
                   <div class="card-img-overlay " style="background-color: #0000007a;">
                     <div  fxLayout="row"  fxLayoutAlign="space-between start">
                       <h5 class="card-title"><b>  {{product.name}} </b></h5>
@@ -38,6 +38,7 @@
                     <div> <b>Catégorie: </b>  <span *ngIf="product.categoryName;else aucuneCategorie" >{{product.categoryName}}</span> <ng-template #aucuneCategorie >Aucune</ng-template> </div>
                     <div> <b>Stock: </b> {{product.stock}}</div>
                     <div> <b>Poids: </b> {{product.weight}} Kg</div>
+                    <div *ngIf="product.inTrend"> <span class="badge badge-success">Vedette</span></div>
                   </div>
                 </div>
                 <!-- <div class="card-header text-muted border-bottom-0" >
@@ -70,9 +71,9 @@
         <div class="card-footer">
           <nav *ngIf="productsByPage.length && numberTotalOfpage>1" aria-label="Contacts Page Navigation">
             <ul class="pagination justify-content-center m-0">
-              <li *ngFor="let i of pages" class="page-item active" [class]="{'active' : i  == numberOfPage} "
+              <li *ngFor="let i of pages" class="page-item active" [class]="{'active' : i  == currentPage} "
               (click)="getProductsBypage(i)">
-               <a class="page-link" href="javascript:void(0)">{{ i  }}</a>
+               <a class="page-link" href="javascript:void(0)">{{ i }}</a>
               </li>
             </ul>
           </nav>

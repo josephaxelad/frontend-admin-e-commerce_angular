@@ -4,6 +4,7 @@ import { Product } from 'src/app/models/product';
 import { AlertsService } from 'src/app/services/alerts.service';
 import { CategoriesService } from 'src/app/services/categories.service';
 import { ProductsService } from 'src/app/services/products.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-deleted-products',
@@ -12,6 +13,7 @@ import { ProductsService } from 'src/app/services/products.service';
 })
 export class DeletedProductsComponent implements OnInit {
 
+  prefUrlProductsImage = `${environment.prefUrlProductsImage}`;
   products : Product[] = [];
   productsByPage: Product[] = [];
   categories: Category[] = [];

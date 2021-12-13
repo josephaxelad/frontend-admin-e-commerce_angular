@@ -5,6 +5,7 @@ import { Product } from 'src/app/models/product';
 import { AlertsService } from 'src/app/services/alerts.service';
 import { CategoriesService } from 'src/app/services/categories.service';
 import { ProductsService } from 'src/app/services/products.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-single-product',
@@ -13,6 +14,7 @@ import { ProductsService } from 'src/app/services/products.service';
 })
 export class SingleProductComponent implements OnInit {
 
+  prefUrlProductsImage = `${environment.prefUrlProductsImage}`;
   product!: Product;
   products : Product[] = [];
   categories: Category[] = [];

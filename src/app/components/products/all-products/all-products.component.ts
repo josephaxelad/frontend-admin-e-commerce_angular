@@ -4,6 +4,7 @@ import { Product } from 'src/app/models/product';
 import { AlertsService } from 'src/app/services/alerts.service';
 import { CategoriesService } from 'src/app/services/categories.service';
 import { ProductsService } from 'src/app/services/products.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-all-products',
@@ -12,15 +13,19 @@ import { ProductsService } from 'src/app/services/products.service';
 })
 export class AllProductsComponent implements OnInit {
 
+  prefUrlProductsImage = `${environment.prefUrlProductsImage}`;
   categories: Category[] = [];
   products : Product[] = [];
   productsByPage: Product[] = [];
   numberOfElementToShow : number = 9;
-  numberOfPage : number = 0;
+  currentPage : number = 1;
   numberTotalOfpage : number = 0;
   pages : number[] = [];
 
-  constructor(private _productsService : ProductsService,private _categoriesService : CategoriesService,private _alertsService : AlertsService ) { }
+  constructor(
+    private _productsService : ProductsService,
+    private _categoriesService : CategoriesService,
+    private _alertsService : AlertsService ) { }
 
   ngOnInit(): void {
 
@@ -29,26 +34,29 @@ export class AllProductsComponent implements OnInit {
       (categories : Category[])=>{
         this.categories = categories
         console.log(categories)
-      }
-    )
 
-    /**Récuperer les produits */
-    this._productsService.products$.subscribe(
-      (products : Product[])=>{
+        /**Récuperer les produits */
+        this._productsService.products$.subscribe(
+          (products : Product[])=>{
 
-        this.numberTotalOfpage = Math.ceil(products?.length/this.numberOfElementToShow)
-        for (let i = 1; i < this.numberTotalOfpage + 1; i++) {
-          this.pages.push(i)
-        }
+            this.numberTotalOfpage = Math.ceil(products?.length/this.numberOfElementToShow)
+            this.pages=[];
+            for (let i = 1; i < this.numberTotalOfpage + 1; i++) {
+              this.pages.push(i)
+            }
 
-        this.products = products?.filter((product)=>product.isHidden == false)?.map(
-          (product : Product)=> ({...product, categoryName : this.categories?.find((cat)=>cat._id == product.categoryId)?.name! })
+            this.products = products?.filter((product)=>product.isHidden == false)?.map(
+              (product : Product)=> ({...product, categoryName : categories?.find((cat)=>cat._id == product.categoryId)?.name! })
+            )
+            console.log(this.products)
+          }
         )
-        console.log(this.products)
       }
     )
 
-    this.getProductsBypage(1);
+
+
+    this.getProductsBypage(this.currentPage);
   }
 
   /**
@@ -81,8 +89,8 @@ export class AllProductsComponent implements OnInit {
     }
   }
 
-  getProductsBypage(numberOfPage : number){
-    this.numberOfPage = numberOfPage;
+  getProductsBypage(currentPage : number){
+    this.currentPage = currentPage;
     /**Récuperer les produits */
     this._productsService.products$.subscribe(
       (products : Product[])=>{
@@ -91,7 +99,7 @@ export class AllProductsComponent implements OnInit {
           (product : Product)=> ({...product, categoryName : this.categories?.find((cat)=>cat._id == product.categoryId)?.name! })
         )
 
-        this.productsByPage = products_?.slice(this.numberOfElementToShow*(numberOfPage-1),this.numberOfElementToShow*numberOfPage)
+        this.productsByPage = products_?.slice(this.numberOfElementToShow*(currentPage-1),this.numberOfElementToShow*currentPage)
 
         console.log(this.productsByPage)
       }

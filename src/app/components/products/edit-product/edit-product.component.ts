@@ -6,6 +6,8 @@ import { Product } from 'src/app/models/product';
 import { AlertsService } from 'src/app/services/alerts.service';
 import { CategoriesService } from 'src/app/services/categories.service';
 import { ProductsService } from 'src/app/services/products.service';
+import { Location } from '@angular/common';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-edit-product',
@@ -14,12 +16,13 @@ import { ProductsService } from 'src/app/services/products.service';
 })
 export class EditProductComponent implements OnInit {
 
+  prefUrlProductsImage = `${environment.prefUrlProductsImage}`;
   products!: Product[];
   product!: Product;
   editProductForm!: FormGroup;
   categories!: Category[];
   imagePreview! : String;
-  picture: any = null;
+  picture! : any ;
 
   inPromotion : Boolean = false;
   promotionRate! : number ;
@@ -27,7 +30,14 @@ export class EditProductComponent implements OnInit {
   price! : number ;
   submitted: boolean = false;
 
-  constructor(private _route : ActivatedRoute, private _productsService : ProductsService,private _categoriesService : CategoriesService,private _fb : FormBuilder,private _router : Router,private _alertsService : AlertsService) {
+  constructor(
+    private _route : ActivatedRoute,
+    private _productsService : ProductsService,
+    private _categoriesService : CategoriesService,
+    private _fb : FormBuilder,
+    private _router : Router,
+    private _alertsService : AlertsService,
+    private _location: Location) {
 
     /** Initialisation du formulaire de l'ajout d'un produit */
 
@@ -76,7 +86,7 @@ export class EditProductComponent implements OnInit {
         this.editProductForm.get('promotionRate')?.setValue(this.product?.promotionRate);
         this.editProductForm.get('promotionPrice')?.setValue(this.product?.promotionPrice);
         this.editProductForm.get('weight')?.setValue(this.product?.weight);
-        this.imagePreview = this.product?.imageUrl!;
+        this.imagePreview = this.prefUrlProductsImage+this.product?.picture!;
         if (this.product?.categoryId) {
           this.editProductForm.get('categoryId')?.patchValue(this.product?.categoryId);
         } else {
@@ -126,6 +136,9 @@ export class EditProductComponent implements OnInit {
         categoryId : categoryId,
         weight : weight,
         price : price,
+        picture : this.product?.picture,
+        createdBy : "0",
+        creationDate : this.product.creationDate,
 
       }
 
@@ -137,9 +150,9 @@ export class EditProductComponent implements OnInit {
           {
             autoClose: true,
             keepAfterRouteChange: true,
-          }
-          )
-          this._router.navigate(["/produits"])
+          })
+        // this._location.back();
+        this._router.navigate(["/produits"])
       })
       .catch((error)=>{
         this.submitted = false;
