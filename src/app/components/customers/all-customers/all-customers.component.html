@@ -1,0 +1,88 @@
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <app-page-header title="CLIENTS" [breadcrumb]="[{name : 'Accueil',link : '/home'},{name : 'Mes Clients',link : '/clients'}]"></app-page-header>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <section class="content">
+
+      <!-- Default box -->
+      <div class="card">
+        <div class="card-header">
+
+          <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+              <i class="fas fa-minus"></i>
+            </button>
+            <!-- <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
+              <i class="fas fa-times"></i>
+            </button> -->
+          </div>
+        </div>
+        <div class="card-body p-0">
+
+          <div  *ngIf="!customers?.length" fxLayout="row" >
+            <div class="alert alert-info " fxFlex fxLayout="column" >
+              <h5><i class="icon fas fa-exclamation-triangle"></i>Aucun client !</h5>
+            </div>
+          </div>
+
+          <table  *ngIf="customers?.length" class="table table-striped projects">
+              <thead >
+                  <tr fxLayout="row"  >
+                      <th fxFlex="5" >#</th>
+                      <th fxFlex >Email</th>
+                      <th fxFlex fxHide.xs>Prénom(s)</th>
+                      <th fxFlex fxHide.xs> Nom</th>
+                      <th fxFlex > </th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr fxLayout="row" *ngFor="let customer of customersByPage; let i = index  " >
+                      <td fxFlex="5"> {{  (i + 1) + ((currentPage-1)*numberOfElementToShow)}} </td>
+                      <td fxFlex>{{customer?.user?.email}}</td>
+                      <td fxFlex fxHide.xs>{{customer?.user?.firstname}}</td>
+                      <td fxFlex fxHide.xs>{{customer?.user?.lastname}}</td>
+                      <td fxFlex style=" white-space: nowrap" class="project-actions text-right" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px">
+
+                          <a class="btn btn-info btn-sm" href="javascript:void(0)" [routerLink]="['/clients/client/'+customer._id]"  >
+                              <i class="fas fa-eye">
+                              </i><span fxHide.xs>Détails</span>
+
+                          </a>
+                          <a title="Activer le compte"  *ngIf="customer.isDisabled" (click)="isDisabled(false,customer)" class="btn btn-success btn-sm" href="javascript:void(0)" data-toggle="modal" [attr.data-target]="'#modal-disable-customer-'+customer._id">
+                              <i class="fas fa-check-circle">
+                              </i><span fxHide.xs>Activer</span>
+                          </a>
+                          <a title="Désactiver le compte" *ngIf="!customer.isDisabled" (click)="isDisabled(true,customer)" class="btn btn-danger btn-sm" href="javascript:void(0)" data-toggle="modal" [attr.data-target]="'#modal-disable-customer-'+customer._id">
+                            <i class="fas fa-ban">
+                            </i><span fxHide.xs>Désactiver</span>
+                        </a>
+                      </td>
+                  </tr>
+
+              </tbody>
+          </table>
+        </div>
+        <!-- /.card-body -->
+        <div class="card-footer">
+          <nav *ngIf="customersByPage?.length && numberTotalOfpage>1" aria-label="Contacts Page Navigation">
+            <ul class="pagination justify-content-center m-0">
+              <li *ngFor="let i of pages" class="page-item active" [class]="{'active' : i  == currentPage} "
+              (click)="getCustomersByPage(i)">
+               <a class="page-link" href="javascript:void(0)">{{ i  }}</a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+        <!-- /.card-footer -->
+      </div>
+      <!-- /.card -->
+
+    </section>
+    <!-- /.content -->
+
+  </div>
+  <!-- /.content-wrapper -->
+

@@ -26,6 +26,12 @@ import { PageHeaderComponent } from './components/partials/page-header/page-head
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { AuthInterceptor } from "./interceptors/auth.interceptor";
 import { AlertComponent } from './components/partials/alert/alert.component';
+import { CustomersComponent } from './components/customers/customers.component';
+import { AllCustomersComponent } from './components/customers/all-customers/all-customers.component';
+import { SingleCustomerComponent } from './components/customers/single-customer/single-customer.component';
+import { registerLocaleData } from '@angular/common';
+import localeFr from '@angular/common/locales/fr';
+registerLocaleData(localeFr, 'fr');
 
 
 
@@ -51,6 +57,9 @@ import { AlertComponent } from './components/partials/alert/alert.component';
     AllCategoriesComponent,
     PageHeaderComponent,
     AlertComponent,
+    CustomersComponent,
+    AllCustomersComponent,
+    SingleCustomerComponent,
 
   ],
   imports: [

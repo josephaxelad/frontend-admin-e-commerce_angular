@@ -4,6 +4,8 @@ import { AllCategoriesComponent } from './components/categories/all-categories/a
 import { CategoriesComponent } from './components/categories/categories.component';
 import { EditCategoryComponent } from './components/categories/edit-category/edit-category.component';
 import { NewCategoryComponent } from './components/categories/new-category/new-category.component';
+import { AllCustomersComponent } from './components/customers/all-customers/all-customers.component';
+import { SingleCustomerComponent } from './components/customers/single-customer/single-customer.component';
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
 import { NotFoundComponent } from './components/partials/not-found/not-found.component';
@@ -34,6 +36,13 @@ const routes: Routes = [
       { path : 'modifier/:id', component: EditProductComponent},
       { path : 'archives', component: DeletedProductsComponent},
       { path : '', component: AllProductsComponent},
+      { path: '', pathMatch: 'full', redirectTo: '' },
+    ]
+  },
+  { path: 'clients' , component: ProductsComponent ,canActivate : [AuthGuard],
+    children: [
+      { path : 'client/:id', component: SingleCustomerComponent},
+      { path : '', component: AllCustomersComponent},
       { path: '', pathMatch: 'full', redirectTo: '' },
     ]
   },

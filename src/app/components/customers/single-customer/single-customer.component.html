@@ -1,0 +1,117 @@
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <app-page-header title="CLIENTS" [breadcrumb]="[{name : 'Accueil',link : '/home'},{name : 'Mes clients',link : '/clients'},{name : 'Détails du client',link : ''}]"></app-page-header>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-3">
+
+            <!-- Profile Image -->
+            <div class="card card-primary card-outline">
+              <div class="card-body box-profile">
+                <div class="text-center">
+                  <img *ngIf="customer?.user?.sex==1" class="profile-user-img img-fluid img-circle" src="assets/dist/img/avatar.png" alt="User profile picture">
+                  <img *ngIf="customer?.user?.sex==0" class="profile-user-img img-fluid img-circle" src="assets/dist/img/avatar2.png" alt="User profile picture">
+                </div>
+
+                <h3 class="profile-username text-center">{{customer?.user?.firstname}}</h3>
+
+                <p class="text-muted text-center">{{customer?.user?.email}}</p>
+
+                <ul class="list-group list-group-unbordered mb-3">
+                  <li class="list-group-item">
+                    <b>Nombre de commandes</b> <a class="float-right">1,322</a>
+                  </li>
+                </ul>
+
+                <a title="Désactiver le compte" *ngIf="!customer?.isDisabled" (click)="isDisabled(true,customer)" href="javascript:void(0)" class="btn btn-danger btn-block"><i class="fas fa-ban">
+                </i><b>Désactiver</b></a>
+                <a title="Activer le compte" *ngIf="customer?.isDisabled" (click)="isDisabled(false,customer)" href="javascript:void(0)" class="btn btn-success btn-block"><i class="fas fa-check-circle">
+                </i><b>Activer</b></a>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+
+            <!-- About Me Box -->
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title">A propos</h3>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body">
+                <strong><i class="fas fa-book mr-1"></i> Prénoms</strong>
+
+                <p class="text-muted">
+                  {{customer?.user?.firstname}}
+                </p>
+
+                <hr>
+
+                <strong><i class="fas fa-map-marker-alt mr-1"></i> Nom</strong>
+
+                <p class="text-muted">{{customer?.user?.lastname}}</p>
+
+                <hr>
+
+                <strong><i class="fas fa-pencil-alt mr-1"></i> Adresse mail</strong>
+
+                <p class="text-muted">
+                  {{customer?.user?.email}}
+                </p>
+
+                <hr>
+
+                <strong><i class="far fa-file-alt mr-1"></i> Date d'inscription</strong>
+
+                <p class="text-muted">{{customer?.user?.creationDate | date:'d MMMM y à h:mm': undefined : 'fr'}}</p>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+          <!-- /.col -->
+
+          <div class="col-md-9">
+            <div class="card">
+              <div class="card-header p-2">
+                <ul class="nav nav-pills">
+                  <li class="nav-item"><a class="nav-link active" href="#orders" data-toggle="tab">Commandes</a></li>
+                  <li class="nav-item"><a class="nav-link " href="#deliveries-address" data-toggle="tab">Adresses de livraison</a></li>
+                </ul>
+              </div><!-- /.card-header -->
+              <div class="card-body">
+                <div class="tab-content">
+                  <div class="tab-pane" id="orders" >
+                    <div class="alert alert-info "  >
+                      <h5><i class="icon fas fa-exclamation-triangle"></i>Aucune commande !</h5>
+                    </div>
+                  </div>
+                  <!-- /.tab-pane -->
+                  <div class="tab-pane active" id="deliveries-address">
+                    <div class="alert alert-info "  >
+                      <h5><i class="icon fas fa-exclamation-triangle"></i>Aucune adresse de livraison !</h5>
+                    </div>
+                  </div>
+                  <!-- /.tab-pane -->
+
+                  <!-- /.tab-pane -->
+                </div>
+                <!-- /.tab-content -->
+              </div><!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+
+  </div>
+  <!-- /.content-wrapper -->

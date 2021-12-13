@@ -18,7 +18,6 @@ export class Product {
   categoryName? : String;
   weight : number = 0 ;
   picture? : string;
-  imageUrl? : String;
   price : number = 0;
   tags? : string[];
   createdBy? : string;
